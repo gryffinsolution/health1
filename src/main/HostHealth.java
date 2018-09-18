@@ -50,6 +50,7 @@ public class HostHealth {
 		String sql = cf.getSingleString("get_host_sql");
 		String skipKeyword = cf.getSingleString("custom_skip_keyword");
 		String skipColumn = cf.getSingleString("custom_skip_column");
+		int agentTimeout =cf.getSinglefValue("agent_delay_timeout_second");
 
 		if (customServiceName == null) {
 			LOG.error("customServiceName is empty");
@@ -62,7 +63,7 @@ public class HostHealth {
 		for (int thNo = 1; thNo <= thAll; thNo++) {
 			Callable callable = new Worker(thNo, thAll, rdbUrl, rdbUser,
 					rdbPasswd, agentPort, customPort, customServiceName, sql,
-					skipKeyword, skipColumn);
+					skipKeyword, skipColumn, agentTimeout);
 			Future future = pool.submit(callable);
 			set.add(future);
 		}

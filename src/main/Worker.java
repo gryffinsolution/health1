@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
+import util.ASao;
 import util.RDao;
 import util.Sock;
 
@@ -26,11 +27,12 @@ public class Worker implements Callable<Boolean> {
 	String sql;
 	String skipKeyword;
 	String skipColumn;
+	int agentTimeOut;
 
 	public Worker(int thNo, int thAll, String rdbUrl, String rdbUser,
 			String rdbPasswd, int agentPort, int customPort,
 			String customServiceName, String sql, String skipKeyword,
-			String skipColumn) {
+			String skipColumn,int agentTimeout) {
 		this.thNo = thNo;
 		this.thAll = thAll;
 		this.rdbUrl = rdbUrl;
@@ -42,6 +44,7 @@ public class Worker implements Callable<Boolean> {
 		this.sql = sql;
 		this.skipKeyword = skipKeyword;
 		this.skipColumn = skipColumn;
+		this.agentTimeOut = agentTimeout;
 	}
 
 	@Override
@@ -53,13 +56,27 @@ public class Worker implements Callable<Boolean> {
 		ArrayList<String> hosts = rDao.getHostsMTCustom(conn, thNo - 1, thAll,
 				hostKVstatus, nonCustomCheckServerList, sql, skipKeyword,
 				skipColumn);
+		// ArrayList<String> hosts = rDao.getHostsTest(conn);
+		HashMap<String,Boolean> isV3=rDao.getV3Info(conn);
+		
 		int i = 0;
 		Sock sock = new Sock();
 		DateTime start = new DateTime();
+		
+		ASao asao = new ASao();
+		
 		for (String host : hosts) {
 			LOG.trace(thNo + "-" + i + ":Checking:" + host);
 			i++;
-			boolean bAgent = sock.isPortWorking(host, agentPort);
+			
+			boolean bAgent = false;
+			
+			if (isV3.containsKey(host) && isV3.get(host)) {
+				bAgent = asao.isWorking(host,agentPort,agentTimeOut);
+			}else{
+				bAgent= sock.isPortWorking(host, agentPort);
+			}
+			
 			boolean bCustom = sock.isPortWorking(host, customPort);
 
 			if (nonCustomCheckServerList.contains(host)) {
