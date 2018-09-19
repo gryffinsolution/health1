@@ -108,7 +108,7 @@ public class RDao {
 		return NoOfHost;
 	}
 
-	public ArrayList<String> getHostsTest(Connection conR) {
+	public ArrayList<String> getHostsTest() {
 		ArrayList<String> host = new ArrayList<String>();
 		host.add("localhost.localdomain");
 		return host;

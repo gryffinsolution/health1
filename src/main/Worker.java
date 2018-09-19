@@ -27,7 +27,7 @@ public class Worker implements Callable<Boolean> {
 	String sql;
 	String skipKeyword;
 	String skipColumn;
-	int agentTimeOut;
+	int agentTimeout;
 
 	public Worker(int thNo, int thAll, String rdbUrl, String rdbUser,
 			String rdbPasswd, int agentPort, int customPort,
@@ -44,7 +44,7 @@ public class Worker implements Callable<Boolean> {
 		this.sql = sql;
 		this.skipKeyword = skipKeyword;
 		this.skipColumn = skipColumn;
-		this.agentTimeOut = agentTimeout;
+		this.agentTimeout = agentTimeout;
 	}
 
 	@Override
@@ -72,10 +72,11 @@ public class Worker implements Callable<Boolean> {
 			boolean bAgent = false;
 			
 			if (isV3.containsKey(host) && isV3.get(host)) {
-				bAgent = asao.isWorking(host,agentPort,agentTimeOut);
+				bAgent = asao.isWorking(host,agentPort,agentTimeout);
 			}else{
 				bAgent= sock.isPortWorking(host, agentPort);
 			}
+			LOG.info(host+" bAgent "+bAgent);
 			
 			boolean bCustom = sock.isPortWorking(host, customPort);
 
