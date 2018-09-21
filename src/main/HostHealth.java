@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import util.Conf;
+
 //
 
 public class HostHealth {
@@ -50,7 +51,7 @@ public class HostHealth {
 		String sql = cf.getSingleString("get_host_sql");
 		String skipKeyword = cf.getSingleString("custom_skip_keyword");
 		String skipColumn = cf.getSingleString("custom_skip_column");
-		int agentTimeout =cf.getSinglefValue("agent_delay_timeout_second");
+		int agentTimeout = cf.getSinglefValue("agent_delay_timeout_second");
 
 		if (customServiceName == null) {
 			LOG.error("customServiceName is empty");

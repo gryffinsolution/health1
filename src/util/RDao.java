@@ -228,7 +228,7 @@ public class RDao {
 		try {
 			String sql = "SELECT DISTINCT HOSTNAME,IS_V3 FROM HOST_INFOS WHERE IS_V3=1 ";
 			LOG.info(sql);
-			;
+
 			stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while (rs.next()) {
