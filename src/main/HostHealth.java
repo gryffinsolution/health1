@@ -37,10 +37,7 @@ public class HostHealth {
 			LOG.error("there is no config.xml as a args[0]");
 			System.exit(0);
 		}
-		//
-		//
-		//
-		//
+		
 		String rdbUrl = cf.getDbURL();
 		String rdbUser = cf.getSingleString("user");
 		String rdbPasswd = cf.getSingleString("password");
