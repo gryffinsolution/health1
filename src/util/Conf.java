@@ -20,9 +20,11 @@ import org.xml.sax.SAXException;
 public class Conf {
 	private static final Logger LOG = LogManager.getLogger(Conf.class);
 	private static String fileName = null;
+
 	public Conf() {
 
 	}
+
 	@SuppressWarnings("static-access")
 	public void setConfFile(String fileName) {
 		File f = new File(fileName);
@@ -32,6 +34,7 @@ public class Conf {
 		}
 		this.fileName = fileName;
 	}
+
 	@SuppressWarnings("static-access")
 	public String getConfFile() {
 		return this.fileName;
@@ -62,6 +65,7 @@ public class Conf {
 		LOG.fatal("No config value about " + key);
 		return 0;
 	}
+
 	public String getSingleString(String key) {
 		try {
 			InputSource is = new InputSource(new FileReader(fileName));
@@ -70,7 +74,7 @@ public class Conf {
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			String expression = "/flog/" + key;
 			String value = (xpath.compile(expression).evaluate(document));
-			//LOG.trace(key + ":" + value);
+			// LOG.trace(key + ":" + value);
 			return value;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -86,6 +90,7 @@ public class Conf {
 		LOG.fatal("No config value about " + key);
 		return null;
 	}
+
 	public String getDbURL() {
 		try {
 			InputSource is = new InputSource(new FileReader(fileName));

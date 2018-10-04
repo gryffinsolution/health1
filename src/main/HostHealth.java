@@ -12,8 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import util.Conf;
-
-//
+import util.License;
 
 public class HostHealth {
 	private static final Logger LOG = LogManager.getLogger(HostHealth.class);
@@ -37,7 +36,17 @@ public class HostHealth {
 			LOG.error("there is no config.xml as a args[0]");
 			System.exit(0);
 		}
-		
+		License lic = new License();
+		if (lic.isValid(cf.getSingleString("lic_key_file"))) {
+			LOG.info("license confirmed");
+		} else {
+			if (cf.getSingleString("force_mode").matches("dev")) {
+				LOG.info("develop mode. license check waived");
+			} else {
+				LOG.fatal("license is not valid");
+				System.exit(0);
+			}
+		}
 		String rdbUrl = cf.getDbURL();
 		String rdbUser = cf.getSingleString("user");
 		String rdbPasswd = cf.getSingleString("password");
