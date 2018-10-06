@@ -56,7 +56,7 @@ public class Worker implements Callable<Boolean> {
 		ArrayList<String> hosts = rDao.getHostsMTCustom(conn, thNo - 1, thAll,
 				hostKVstatus, nonCustomCheckServerList, sql, skipKeyword,
 				skipColumn);
-		// ArrayList<String> hosts = rDao.getHostsTest(conn);
+		// ArrayList<String> hosts = rDao.getHostsTest();
 		HashMap<String, Boolean> isV3 = rDao.getV3Info(conn);
 
 		int i = 0;
